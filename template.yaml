@@ -26,6 +26,11 @@ Resources:
       AutoPublishAlias: live
       DeploymentPreference: 
         Type: AllAtOnce
+        ## Some other deployment strategies for graceful rollout.
+        # Type: Canary10Percent30Minutes
+        # Type: Canary10Percent5Minutes
+        # Type: Linear10PercentEvery10Minutes
+        # Type: Linear10PercentEvery1Minute
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
