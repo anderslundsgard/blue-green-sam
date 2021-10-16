@@ -59,6 +59,14 @@ Note the `pytest` unit test will fail if the response do not start with the most
 
 The deployment is a blue-green approach by utilizing the `AllAtOnce` deployment preference built into AWS SAM. Try out [other strategies][5] by modifying the SAM [template.yaml](./template.yaml) file.
 
+## GitHub Actions pipeline
+
+This solution also have a GitHub Actions workflow file [push.yml](./.github/workflows/push.yml).  
+To run the pipe deployment in you own AWS account without any modifications
+1. Fork this repo
+2. Assign two Action secrets with AWS credentials for an IAM User. The user need access to Lambda, API Gateway, IAM, S3, CodeDeploy and CloudFormation. 
+
+![architecture](docs/action-secrets.png)
 
 [1]: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html
 [2]: https://www.python.org/downloads/
