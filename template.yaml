@@ -25,7 +25,7 @@ Resources:
             Method: get
       AutoPublishAlias: live
       DeploymentPreference: 
-        Type: AllAtOnce
+        Type: Linear10PercentEvery1Minute  # AllAtOnce
         ## Some other deployment strategies for graceful rollout.
         # Type: Canary10Percent30Minutes
         # Type: Canary10Percent5Minutes
