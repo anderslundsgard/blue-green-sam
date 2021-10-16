@@ -1,0 +1,60 @@
+name: Blue-Green SAM
+
+on: push
+# on:
+#   push:
+#     branches:
+#       - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Python version
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Linter and Unit tests
+        run: |
+          pip3 install -r tests/requirements.txt
+          pytest ./tests
+          flake8
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Python version
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+          ## When running on self-hosted runner, make use of instance profile and remove above keys
+          # role-to-assume: arn:aws:iam::....
+          # role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
+          # role-duration-seconds: 1200
+          # role-session-name: github-test-session
+    
+      - name: SAM Validate
+        run: |
+          sam --version
+          sam validate
+
+      - name: SAM Deploy
+        run: |
+          python --version
+          sam build
+          sam deploy --resolve-s3 --no-confirm-changeset --no-fail-on-empty-changeset
