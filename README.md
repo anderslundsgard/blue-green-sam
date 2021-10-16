@@ -2,6 +2,10 @@
 
 This project showcase a blue-green deployment in AWS.
 
+## Architecture Overview
+
+![architecture](docs/architecture.png)
+
 ## Requirements for building and deploying
 
 * SAM CLI - [Install the SAM CLI][1]
@@ -61,7 +65,7 @@ The deployment is a blue-green approach by utilizing the `AllAtOnce` deployment 
 
 ## GitHub Actions pipeline
 
-This solution also have a GitHub Actions workflow file [push.yml](./.github/workflows/push.yml).  
+This solution also have a GitHub Actions workflow file [.github/workflows/push.yml](./.github/workflows/push.yml).  
 To run the pipe deployment in you own AWS account without any modifications
 1. Fork this repo
 2. Assign two Action secrets with AWS credentials for an IAM User. The user need access to Lambda, API Gateway, IAM, S3, CodeDeploy and CloudFormation. 
